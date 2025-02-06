@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-Black.eot');
+    src: local('Biryani Black'), local('Biryani-Black'),
+        url('Biryani-Black.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-Black.woff2') format('woff2'),
+        url('Biryani-Black.woff') format('woff'),
+        url('Biryani-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-Regular.eot');
+    src: local('Biryani Regular'), local('Biryani-Regular'),
+        url('Biryani-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-Regular.woff2') format('woff2'),
+        url('Biryani-Regular.woff') format('woff'),
+        url('Biryani-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-Bold.eot');
+    src: local('Biryani Bold'), local('Biryani-Bold'),
+        url('Biryani-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-Bold.woff2') format('woff2'),
+        url('Biryani-Bold.woff') format('woff'),
+        url('Biryani-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-SemiBold.eot');
+    src: local('Biryani SemiBold'), local('Biryani-SemiBold'),
+        url('Biryani-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-SemiBold.woff2') format('woff2'),
+        url('Biryani-SemiBold.woff') format('woff'),
+        url('Biryani-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-ExtraLight.eot');
+    src: local('Biryani ExtraLight'), local('Biryani-ExtraLight'),
+        url('Biryani-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-ExtraLight.woff2') format('woff2'),
+        url('Biryani-ExtraLight.woff') format('woff'),
+        url('Biryani-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-ExtraBold.eot');
+    src: local('Biryani ExtraBold'), local('Biryani-ExtraBold'),
+        url('Biryani-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-ExtraBold.woff2') format('woff2'),
+        url('Biryani-ExtraBold.woff') format('woff'),
+        url('Biryani-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biryani';
+    src: url('Biryani-Light.eot');
+    src: local('Biryani Light'), local('Biryani-Light'),
+        url('Biryani-Light.eot?#iefix') format('embedded-opentype'),
+        url('Biryani-Light.woff2') format('woff2'),
+        url('Biryani-Light.woff') format('woff'),
+        url('Biryani-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
