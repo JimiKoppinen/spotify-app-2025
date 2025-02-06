@@ -2,6 +2,8 @@ import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import { spotify } from "../apis/spotify";
 import axios from "axios";
+import { toaster } from "../components/ui/toaster"
+
 
 const SongsContext = createContext();
 
@@ -29,7 +31,11 @@ function Provider({ children }) {
         setAccessToken(response.data.access_token);
       })
       .catch((error) => {
-        console.log(error);
+        toaster.create({
+          title: "API Error",
+          description: `${error.message}`,
+          type: "error",
+        })
       });
   };
 
@@ -54,7 +60,11 @@ function Provider({ children }) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.error(error);
+      toaster.create({
+        title: "API Error",
+        description: `${error.message}`,
+        type: "error",
+      })
     }
   }
 
@@ -76,7 +86,11 @@ function Provider({ children }) {
       );
       setSongsResponse(response.data);
     } catch (error) {
-      console.log(error);
+      toaster.create({
+        title: "API Error",
+        description: `${error.message}`,
+        type: "error",
+      })
     }
   }
 
@@ -100,7 +114,11 @@ function Provider({ children }) {
       setTopSongsResponse(response.data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      toaster.create({
+        title: "API Error",
+        description: `${error.message}`,
+        type: "error",
+      })
       setIsLoading(false);
     }
   }

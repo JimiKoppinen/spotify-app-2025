@@ -3,7 +3,7 @@ import SearchBar from "../components/SearchBar";
 import ArtistList from "../components/ArtistList";
 import { SongList } from "../components/SongList";
 
-const ArtistSearchContainer = () => {
+export const ArtistSearchContainer = () => {
   return (
     <>
       <SearchBar />
@@ -14,5 +14,3 @@ const ArtistSearchContainer = () => {
     </>
   );
 };
-
-export default ArtistSearchContainer;
