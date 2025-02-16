@@ -4,9 +4,9 @@ const Nav = () => {
   return (
     <div className="topnav">
       <Link to={"/"}>Home</Link>
-      <Link to="/ArtistSearchContainer">Artist Search</Link>
-      <Link to="/ArtistList">Artist List</Link>
-      <Link to="/RehearsalList">Rehearsal List</Link>
+      <Link to="/ArtistSearchContainer">Randomizer</Link>
+      {/* <Link to="/ArtistList">Artist List</Link>
+      <Link to="/SongRandomizer">NSB Song Randomizer</Link> */}
     </div>
   );
 };
