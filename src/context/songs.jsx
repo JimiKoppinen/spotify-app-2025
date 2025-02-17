@@ -39,7 +39,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -64,7 +64,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -84,7 +84,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -104,7 +104,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -123,7 +123,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -143,7 +143,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -164,7 +164,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }
@@ -183,7 +183,7 @@ function Provider({ children }) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.response.data}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
     }

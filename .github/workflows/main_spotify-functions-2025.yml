@@ -20,6 +20,10 @@ jobs:
       contents: read #This is required for actions/checkout
       
     steps:
+      - name: Set up debug logs
+        run: |
+          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
+          echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
