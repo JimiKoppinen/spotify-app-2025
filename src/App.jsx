@@ -4,8 +4,6 @@ import { Toaster } from "./components/ui/toaster"
 import { ArtistSearchContainer } from "./views/ArtistSearchContainer";
 import Nav from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ArtistList from "./components/ArtistList";
-import { SongRandomizer } from "./components/SongRandomizer";
 import SongsContext from "./context/songs";
 import { ArtistControl } from "./components/ArtistControl";
 
@@ -34,6 +32,7 @@ function App() {
                 Spotify Song Randomizer
               </Heading>
               <Routes>
+                <Route path="/" element={null} />
                 <Route path="/ArtistSearchContainer" element={<ArtistSearchContainer />} />
                 {/* <Route path="/ArtistList" element={<ArtistList />} />
                 <Route path="/SongRandomizer" element={<SongRandomizer />} /> */}
