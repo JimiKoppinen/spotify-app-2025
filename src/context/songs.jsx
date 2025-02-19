@@ -17,7 +17,6 @@ function Provider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState(null);
 
-
   const clearState = () => {
     setArtistsResponse([]);
     setSongsResponse([]);
@@ -30,9 +29,12 @@ function Provider({ children }) {
   };
 
   const fetchToken = async () => {
+    const apiUrl = import.meta.env.PROD 
+    ? '/fetchToken' 
+    : '/api/fetchToken';
     try {
       setIsLoading(true);
-      const response = await axios.get("/api/fetchToken");
+      const response = await axios.get(apiUrl);
       setAccessToken(response.data);
       setIsLoading(false);
     } catch (error) {
