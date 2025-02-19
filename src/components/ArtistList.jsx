@@ -1,58 +1,59 @@
-import { Button, Heading, Spinner, GridItem, Grid } from "@chakra-ui/react";
-import { useContext, useState, useEffect } from "react";
+import { Box, Button, Heading, Spinner, Grid, Image, Text, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
 import SongsContext from "../context/songs";
 
 const ArtistList = () => {
-  const [selectedArtistId, setSelectedArtistId] = useState("");
-  const { artistsResponse, fetchTopSongsByArtistId, isLoading, setArtistsResponse, setTopSongsResponse } = useContext(SongsContext);
+  const { selectedArtist, setSelectedArtist, artistsResponse, isLoading } = useContext(SongsContext);
 
-  useEffect(() => {
-    if (selectedArtistId !== "") {
-      fetchTopSongsByArtistId(selectedArtistId);
-    }
-  }, [selectedArtistId]);
-
-  const onArtistSelect = (artistId) => {
-    setSelectedArtistId(artistId);
+  const onArtistSelect = (artist) => {
+    setSelectedArtist(artist);
   };
-
-  const onEmptyList = () => {
-    setArtistsResponse([]);
-    setTopSongsResponse([]);
-  }
 
   if (isLoading) {
     return <Spinner />;
   }
-  if (!artistsResponse.artists) {
-    return <></>;
+
+  if (!artistsResponse.artists || selectedArtist) {
+    return null;
   }
+
   return (
-    <>
-      <Heading color="white" size="2xl" marginTop={5} marginBottom={5}>
-        Artist list
+    <Box mt={5} p={4}>
+      <Heading color="white" size="xl" mb={5} textAlign="center">
+        Select an Artist
       </Heading>
-      <Button onClick={() => onEmptyList()} colorPalette="red" marginBottom={5}>
-        X Empty list
-      </Button>
-
-        {artistsResponse.artists.items.map((item, index) => (
-      <Grid templateColumns="repeat(6, 1fr)" gap="6" key={index}>
-          <GridItem colSpan={4}>
-            {item.name}
-            </GridItem>
-            <GridItem colSpan={1}>
-            <Button
-              onClick={() => onArtistSelect(item.id)}
-            >
-              Choose
-            </Button>
-            </GridItem>
-      </Grid>
-
+      <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)" }} gap={6}>
+        {artistsResponse.artists.items.map((artist) => (
+          <Box
+            key={artist.id}
+            p={4}
+            bg="gray.700"
+            borderRadius="lg"
+            boxShadow="md"
+            textAlign="center"
+            _hover={{ bg: "gray.600", cursor: "pointer", transform: "scale(1.05)" }}
+            transition="0.2s ease-in-out"
+            onClick={() => onArtistSelect(artist)}
+          >
+            <VStack>
+              <Image
+                src={artist.images?.[0]?.url}
+                alt={artist.name}
+                boxSize="100px"
+                borderRadius="full"
+                objectFit="cover"
+              />
+              <Text fontSize="lg" fontWeight="bold" color="white">
+                {artist.name}
+              </Text>
+              <Button size="sm" colorScheme="blue">
+                Select
+              </Button>
+            </VStack>
+          </Box>
         ))}
-
-    </>
+      </Grid>
+    </Box>
   );
 };
 

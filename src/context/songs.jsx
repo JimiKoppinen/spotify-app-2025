@@ -1,9 +1,7 @@
 import { createContext, useState } from "react";
 import PropTypes from "prop-types";
-import { spotify } from "../apis/spotify";
 import axios from "axios";
-import { toaster } from "../components/ui/toaster"
-
+import { toaster } from "../components/ui/toaster";
 
 const SongsContext = createContext();
 
@@ -12,114 +10,182 @@ function Provider({ children }) {
   const [artistsResponse, setArtistsResponse] = useState([]);
   const [songsResponse, setSongsResponse] = useState([]);
   const [topSongsResponse, setTopSongsResponse] = useState([]);
+  const [artistAlbumsResponse, setArtistAlbumsResponse] = useState([]);
+  const [albumTracksResponse, setAlbumTracksResponse] = useState([]);
+  const [multipleAlbumTracksResponse, setMultipleAlbumTracksResponse] = useState([]);
+  const [trackResponse, setTrackResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedArtist, setSelectedArtist] = useState(null);
 
-  const fetchToken = () => {
-    const authParameters = {
-      grant_type: "client_credentials",
-      client_id: spotify.CLIENT_ID,
-      client_secret: spotify.CLIENT_SECRET,
-    };
 
-    axios
-      .post(spotify.BASE_URL, new URLSearchParams(authParameters), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-      .then((response) => {
-        setAccessToken(response.data.access_token);
-      })
-      .catch((error) => {
-        toaster.create({
-          title: "API Error",
-          description: `${error.message}`,
-          type: "error",
-        })
-      });
+  const clearState = () => {
+    setArtistsResponse([]);
+    setSongsResponse([]);
+    setTopSongsResponse([]);
+    setArtistAlbumsResponse([]);
+    setAlbumTracksResponse([]);
+    setMultipleAlbumTracksResponse([]);
+    setTrackResponse(null);
+    setSelectedArtist(null);
   };
+
+  const fetchToken = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get("/api/fetchToken");
+      setAccessToken(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      toaster.create({
+        title: "API Error",
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
+        type: "error",
+      });
+    }
+  };
+
 
   async function fetchArtists(artistName) {
     if (!artistName) {
+      toaster.create({
+        title: "Enter Artist Name",
+        description: `Enter artist name to search`,
+        type: "warning",
+      });
       return;
     }
     try {
-      const queryParams = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
       setIsLoading(true);
-      const response = await axios.get(
-        `https://api.spotify.com/v1/search?q=${artistName}&type=artist`,
-        queryParams
-      );
-
+      const response = await axios.get(`/api/fetchArtists?artistName=${artistName}&accessToken=${accessToken}`);
       setArtistsResponse(response.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.message}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
-      })
+      });
     }
   }
 
+  // Fetch artist songs by name via the Azure Function
   async function fetchArtistSongsByName(artistName) {
     if (!artistName) {
       return;
     }
     try {
-      const queryParams = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const response = await axios.get(
-        `https://api.spotify.com/v1/search?q=${artistName}&type=track&limit=50`,
-        queryParams
-      );
+      setIsLoading(true);
+      const response = await axios.get(`/api/fetchArtistSongs?artistName=${artistName}&accessToken=${accessToken}`);
       setSongsResponse(response.data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.message}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
-      })
+      });
     }
   }
 
+  // Fetch top songs by artist ID via the Azure Function
   async function fetchTopSongsByArtistId(artistId) {
     if (!artistId) {
       return;
     }
     try {
-      const queryParams = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      setIsLoading(false);
-      const response = await axios.get(
-        `https://api.spotify.com/v1/artists/${artistId}/top-tracks`,
-        queryParams
-      );
+      setIsLoading(true);
+      const response = await axios.get(`/api/fetchTopTracks?artistId=${artistId}&accessToken=${accessToken}`);
       setTopSongsResponse(response.data);
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       toaster.create({
         title: "API Error",
-        description: `${error.message}`,
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
-      })
+      });
+    }
+  }
+
+  async function fetchArtistAlbums(artistId) {
+    if (!artistId) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`/api/fetchArtistAlbums?artistId=${artistId}&accessToken=${accessToken}`);
+      setArtistAlbumsResponse(response.data);
       setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      toaster.create({
+        title: "API Error",
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
+        type: "error",
+      });
+    }
+  }
+
+  async function fetchAlbumTracks(albumId) {
+    if (!albumId) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`/api/fetchAlbumTracks?albumId=${albumId}&accessToken=${accessToken}`);
+      setAlbumTracksResponse(response.data);
+      setIsLoading(false);
+      return response.data || [];
+    } catch (error) {
+      setIsLoading(false);
+      toaster.create({
+        title: "API Error",
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
+        type: "error",
+      });
+    }
+  }
+
+  async function fetchMultipleAlbumTracks(albumIds) {
+    if (!albumIds) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const albumTracks = await Promise.all(albumIds.map(async (albumId) => {
+        return await fetchAlbumTracks(albumId);
+      }));
+      setMultipleAlbumTracksResponse(albumTracks);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      toaster.create({
+        title: "API Error",
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
+        type: "error",
+      });
+    }
+  }
+
+  async function fetchTrack(trackId) {
+    if (!trackId) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`/api/fetchTrack?trackId=${trackId}&accessToken=${accessToken}`);
+      setTrackResponse(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      toaster.create({
+        title: "API Error",
+        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
+        type: "error",
+      });
     }
   }
 
@@ -136,13 +202,26 @@ function Provider({ children }) {
         setSongsResponse,
         fetchTopSongsByArtistId,
         topSongsResponse,
-        setTopSongsResponse
+        setTopSongsResponse,
+        fetchArtistAlbums,
+        artistAlbumsResponse,
+        fetchAlbumTracks,
+        albumTracksResponse,
+        fetchTrack,
+        trackResponse,
+        fetchMultipleAlbumTracks,
+        multipleAlbumTracksResponse,
+        setSelectedArtist,
+        selectedArtist,
+        accessToken,
+        clearState,
       }}
     >
       {children}
     </SongsContext.Provider>
   );
 }
+
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };

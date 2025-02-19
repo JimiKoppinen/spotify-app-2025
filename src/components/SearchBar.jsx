@@ -5,7 +5,7 @@ import SongsContext from "../context/songs";
 
 const SearchBar = () => {
     const [searchInput, setSearchInput] = useState("");
-    const { fetchToken, fetchArtists } = useContext(SongsContext);
+    const { fetchToken, fetchArtists, selectedArtist } = useContext(SongsContext);
 
     useEffect(() => {
         fetchToken();
@@ -21,11 +21,14 @@ const SearchBar = () => {
         });
       };
 
+    if (selectedArtist) {
+        return null;
+    }
     return (
         <div>
             <Field.Root>
                 <Field.Label>
-                    Search songs with Artist name from Spotify
+                    Search for an artist from Spotify
                 </Field.Label>
                 <Input
                     onChange={handleInputChange}

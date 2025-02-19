@@ -1,460 +1,84 @@
-import { SongCard } from "./SongCard"
+import { Text, Button, Spinner } from "@chakra-ui/react"
+import { useState, useEffect, useContext } from 'react';
+import SongsContext from "../context/songs";
+import { RandomizerCard } from "./RandomizerCard";
 
+export const SongRandomizer = () => {
+  const [tracksData, setTracksData] = useState(null);
+  const {
+    isLoading,
+    fetchToken,
+    fetchTrack,
+    trackResponse,
+    artistAlbumsResponse,
+    fetchArtistAlbums,
+    fetchMultipleAlbumTracks,
+    multipleAlbumTracksResponse,
+    selectedArtist,
+    accessToken,
+  } = useContext(SongsContext);
 
-const song =  
-    {
-        "album": {
-          "album_type": "single",
-          "artists": [
-            {
-              "external_urls": {
-                "spotify": "https://open.spotify.com/artist/6o8sDniHcZPM1SixvjKiYS"
-              },
-              "href": "https://api.spotify.com/v1/artists/6o8sDniHcZPM1SixvjKiYS",
-              "id": "6o8sDniHcZPM1SixvjKiYS",
-              "name": "NOVELISTS",
-              "type": "artist",
-              "uri": "spotify:artist:6o8sDniHcZPM1SixvjKiYS"
-            }
-          ],
-          "available_markets": [
-            "AR",
-            "AU",
-            "AT",
-            "BE",
-            "BO",
-            "BR",
-            "BG",
-            "CA",
-            "CL",
-            "CO",
-            "CR",
-            "CY",
-            "CZ",
-            "DK",
-            "DO",
-            "DE",
-            "EC",
-            "EE",
-            "SV",
-            "FI",
-            "FR",
-            "GR",
-            "GT",
-            "HN",
-            "HK",
-            "HU",
-            "IS",
-            "IE",
-            "IT",
-            "LV",
-            "LT",
-            "LU",
-            "MY",
-            "MT",
-            "MX",
-            "NL",
-            "NZ",
-            "NI",
-            "NO",
-            "PA",
-            "PY",
-            "PE",
-            "PH",
-            "PL",
-            "PT",
-            "SG",
-            "SK",
-            "ES",
-            "SE",
-            "CH",
-            "TW",
-            "TR",
-            "UY",
-            "US",
-            "GB",
-            "AD",
-            "LI",
-            "MC",
-            "ID",
-            "JP",
-            "TH",
-            "VN",
-            "RO",
-            "IL",
-            "ZA",
-            "SA",
-            "AE",
-            "BH",
-            "QA",
-            "OM",
-            "KW",
-            "EG",
-            "MA",
-            "DZ",
-            "TN",
-            "LB",
-            "JO",
-            "PS",
-            "IN",
-            "BY",
-            "KZ",
-            "MD",
-            "UA",
-            "AL",
-            "BA",
-            "HR",
-            "ME",
-            "MK",
-            "RS",
-            "SI",
-            "KR",
-            "BD",
-            "PK",
-            "LK",
-            "GH",
-            "KE",
-            "NG",
-            "TZ",
-            "UG",
-            "AG",
-            "AM",
-            "BS",
-            "BB",
-            "BZ",
-            "BT",
-            "BW",
-            "BF",
-            "CV",
-            "CW",
-            "DM",
-            "FJ",
-            "GM",
-            "GE",
-            "GD",
-            "GW",
-            "GY",
-            "HT",
-            "JM",
-            "KI",
-            "LS",
-            "LR",
-            "MW",
-            "MV",
-            "ML",
-            "MH",
-            "FM",
-            "NA",
-            "NR",
-            "NE",
-            "PW",
-            "PG",
-            "PR",
-            "WS",
-            "SM",
-            "ST",
-            "SN",
-            "SC",
-            "SL",
-            "SB",
-            "KN",
-            "LC",
-            "VC",
-            "SR",
-            "TL",
-            "TO",
-            "TT",
-            "TV",
-            "VU",
-            "AZ",
-            "BN",
-            "BI",
-            "KH",
-            "CM",
-            "TD",
-            "KM",
-            "GQ",
-            "SZ",
-            "GA",
-            "GN",
-            "KG",
-            "LA",
-            "MO",
-            "MR",
-            "MN",
-            "NP",
-            "RW",
-            "TG",
-            "UZ",
-            "ZW",
-            "BJ",
-            "MG",
-            "MU",
-            "MZ",
-            "AO",
-            "CI",
-            "DJ",
-            "ZM",
-            "CD",
-            "CG",
-            "IQ",
-            "LY",
-            "TJ",
-            "VE",
-            "ET",
-            "XK"
-          ],
-          "external_urls": {
-            "spotify": "https://open.spotify.com/album/5GaHWICFVGzEGg8ndmQmsP"
-          },
-          "href": "https://api.spotify.com/v1/albums/5GaHWICFVGzEGg8ndmQmsP",
-          "id": "5GaHWICFVGzEGg8ndmQmsP",
-          "images": [
-            {
-              "url": "https://i.scdn.co/image/ab67616d0000b273ee5714a698131f4f970c4c28",
-              "height": 640,
-              "width": 640
-            },
-            {
-              "url": "https://i.scdn.co/image/ab67616d00001e02ee5714a698131f4f970c4c28",
-              "height": 300,
-              "width": 300
-            },
-            {
-              "url": "https://i.scdn.co/image/ab67616d00004851ee5714a698131f4f970c4c28",
-              "height": 64,
-              "width": 64
-            }
-          ],
-          "is_playable": true,
-          "name": "Coda",
-          "release_date": "2024-12-11",
-          "release_date_precision": "day",
-          "total_tracks": 2,
-          "type": "album",
-          "uri": "spotify:album:5GaHWICFVGzEGg8ndmQmsP"
-        },
-        "artists": [
-          {
-            "external_urls": {
-              "spotify": "https://open.spotify.com/artist/6o8sDniHcZPM1SixvjKiYS"
-            },
-            "href": "https://api.spotify.com/v1/artists/6o8sDniHcZPM1SixvjKiYS",
-            "id": "6o8sDniHcZPM1SixvjKiYS",
-            "name": "NOVELISTS",
-            "type": "artist",
-            "uri": "spotify:artist:6o8sDniHcZPM1SixvjKiYS"
-          }
-        ],
-        "available_markets": [
-          "AR",
-          "AU",
-          "AT",
-          "BE",
-          "BO",
-          "BR",
-          "BG",
-          "CA",
-          "CL",
-          "CO",
-          "CR",
-          "CY",
-          "CZ",
-          "DK",
-          "DO",
-          "DE",
-          "EC",
-          "EE",
-          "SV",
-          "FI",
-          "FR",
-          "GR",
-          "GT",
-          "HN",
-          "HK",
-          "HU",
-          "IS",
-          "IE",
-          "IT",
-          "LV",
-          "LT",
-          "LU",
-          "MY",
-          "MT",
-          "MX",
-          "NL",
-          "NZ",
-          "NI",
-          "NO",
-          "PA",
-          "PY",
-          "PE",
-          "PH",
-          "PL",
-          "PT",
-          "SG",
-          "SK",
-          "ES",
-          "SE",
-          "CH",
-          "TW",
-          "TR",
-          "UY",
-          "US",
-          "GB",
-          "AD",
-          "LI",
-          "MC",
-          "ID",
-          "JP",
-          "TH",
-          "VN",
-          "RO",
-          "IL",
-          "ZA",
-          "SA",
-          "AE",
-          "BH",
-          "QA",
-          "OM",
-          "KW",
-          "EG",
-          "MA",
-          "DZ",
-          "TN",
-          "LB",
-          "JO",
-          "PS",
-          "IN",
-          "BY",
-          "KZ",
-          "MD",
-          "UA",
-          "AL",
-          "BA",
-          "HR",
-          "ME",
-          "MK",
-          "RS",
-          "SI",
-          "KR",
-          "BD",
-          "PK",
-          "LK",
-          "GH",
-          "KE",
-          "NG",
-          "TZ",
-          "UG",
-          "AG",
-          "AM",
-          "BS",
-          "BB",
-          "BZ",
-          "BT",
-          "BW",
-          "BF",
-          "CV",
-          "CW",
-          "DM",
-          "FJ",
-          "GM",
-          "GE",
-          "GD",
-          "GW",
-          "GY",
-          "HT",
-          "JM",
-          "KI",
-          "LS",
-          "LR",
-          "MW",
-          "MV",
-          "ML",
-          "MH",
-          "FM",
-          "NA",
-          "NR",
-          "NE",
-          "PW",
-          "PG",
-          "PR",
-          "WS",
-          "SM",
-          "ST",
-          "SN",
-          "SC",
-          "SL",
-          "SB",
-          "KN",
-          "LC",
-          "VC",
-          "SR",
-          "TL",
-          "TO",
-          "TT",
-          "TV",
-          "VU",
-          "AZ",
-          "BN",
-          "BI",
-          "KH",
-          "CM",
-          "TD",
-          "KM",
-          "GQ",
-          "SZ",
-          "GA",
-          "GN",
-          "KG",
-          "LA",
-          "MO",
-          "MR",
-          "MN",
-          "NP",
-          "RW",
-          "TG",
-          "UZ",
-          "ZW",
-          "BJ",
-          "MG",
-          "MU",
-          "MZ",
-          "AO",
-          "CI",
-          "DJ",
-          "ZM",
-          "CD",
-          "CG",
-          "IQ",
-          "LY",
-          "TJ",
-          "VE",
-          "ET",
-          "XK"
-        ],
-        "disc_number": 1,
-        "duration_ms": 249952,
-        "explicit": false,
-        "external_ids": {
-          "isrc": "QMFME2438507"
-        },
-        "external_urls": {
-          "spotify": "https://open.spotify.com/track/4zBtXmFDYbMUW40yF7VV3H"
-        },
-        "href": "https://api.spotify.com/v1/tracks/4zBtXmFDYbMUW40yF7VV3H",
-        "id": "4zBtXmFDYbMUW40yF7VV3H",
-        "is_local": false,
-        "is_playable": true,
-        "name": "Coda",
-        "popularity": 51,
-        "preview_url": null,
-        "track_number": 1,
-        "type": "track",
-        "uri": "spotify:track:4zBtXmFDYbMUW40yF7VV3H"
+  useEffect(() => {
+    if (!accessToken) {
+      fetchToken();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (accessToken && selectedArtist && !artistAlbumsResponse?.items) {
+      fetchArtistAlbums(selectedArtist.id);
+    }
+  }, [accessToken, selectedArtist, artistAlbumsResponse]);
+
+  useEffect(() => {
+    if (artistAlbumsResponse?.items && multipleAlbumTracksResponse.length === 0) {
+      fetchTracksForAlbums(artistAlbumsResponse.items);
+    }
+  }, [artistAlbumsResponse, multipleAlbumTracksResponse]);
+
+  useEffect(() => {
+    if (multipleAlbumTracksResponse) {
+      const filteredTracks = multipleAlbumTracksResponse.filter((tracks) => tracks !== undefined && tracks !== null);
+      setTracksData(filteredTracks);
+
+      if (filteredTracks.length > 0) {
+        assignRandomTrack(filteredTracks, (track) => fetchTrack(track.id));
       }
-  
+    }
+  }, [multipleAlbumTracksResponse]);
 
-export const SongRandomizer = () => {        
-    return <SongCard song={song}/>
+  const onRandomizeClick = () => {
+    assignRandomTrack(tracksData, (track) => fetchTrack(track.id));
+  };
+
+  const fetchTracksForAlbums = async (albums) => {
+    const AlbumIds = extractAlbumIds(albums);
+    await fetchMultipleAlbumTracks(AlbumIds);
+  };
+
+  const assignRandomTrack = (albumTracks, callback) => {
+    const randomAlbumIndex = Math.floor(Math.random() * albumTracks.length);
+    const randomTrackIndex = Math.floor(Math.random() * albumTracks[randomAlbumIndex].items.length);
+    const randomTrack = albumTracks[randomAlbumIndex].items[randomTrackIndex];
+    callback?.(randomTrack);
+  }
+
+  const extractAlbumIds = (listOfAlbums) => listOfAlbums.map(album => album.id)
+
+  if (!selectedArtist) {
+    return;
+  }
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+  return (
+    tracksData && multipleAlbumTracksResponse &&
+    <>
+      <Button onClick={() => onRandomizeClick()}>
+        <Text>Randomize</Text>
+      </Button>
+      <RandomizerCard song={trackResponse} />
+    </>
+  )
 }                                                                      
