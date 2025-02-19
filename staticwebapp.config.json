@@ -3,6 +3,11 @@
       {
         "route": "/api/*",
         "rewrite": "/api"
+      },
+      {
+        "navigationFallback": {
+          "rewrite": "/index.html"
+        }
       }
     ]
   }
