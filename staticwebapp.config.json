@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "route": "/api/{*all}",
+      "route": "/api/{rest}",
       "allowedRoles": ["anonymous"]
     }
   ]
