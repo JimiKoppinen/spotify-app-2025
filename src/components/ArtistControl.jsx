@@ -1,6 +1,6 @@
 import SongsContext from "../context/songs";
 import { useContext } from 'react';
-import { Box, CloseButton, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, CloseButton, HStack, Text, } from "@chakra-ui/react";
 import { toaster } from "./ui/toaster";
 
 
@@ -12,7 +12,7 @@ export const ArtistControl = () => {
         clearState();
         toaster.create({
             title: "Artist Cleared",
-            description: `Artist cleared successfully`,
+            description: "Artist cleared successfully",
             type: "success",
         });
     };
@@ -21,17 +21,12 @@ export const ArtistControl = () => {
         return null;
     }
     return (
-        <Box>
-            {/* <VStack> */}
+        <Box marginTop={4}>
             <Text fontSize={"xs"}>Active artist:</Text>
             <HStack>
-
-            <Text fontSize={"lg"}>{selectedArtist.name}</Text>
-
-            <CloseButton onClick={() => onArtistClear()} variant={"solid"} colorPalette={"gray"}/>
+                <Text fontSize={"lg"}>{selectedArtist.name}</Text>
+                <CloseButton onClick={() => onArtistClear()} variant={"solid"} colorPalette={"gray"} />
             </HStack>
-
-            {/* </VStack> */}
         </Box>
     );
 }

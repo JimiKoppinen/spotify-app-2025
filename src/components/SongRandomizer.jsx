@@ -1,4 +1,3 @@
-import { Text, Button } from "@chakra-ui/react"
 import { useState, useEffect, useContext } from 'react';
 import SongsContext from "../context/songs";
 import { RandomizerCard } from "./RandomizerCard";
@@ -72,11 +71,9 @@ export const SongRandomizer = () => {
   return (
     tracksData && multipleAlbumTracksResponse &&
     <>
-      {!isLoading && <Button onClick={() => onRandomizeClick()}>
-        <Text>Randomize</Text>
-      </Button>
-      }
+      {!isLoading && trackResponse &&
       <RandomizerCard track={trackResponse} onClick={onRandomizeClick} />
+      }
     </>
   )
 }                                                                      

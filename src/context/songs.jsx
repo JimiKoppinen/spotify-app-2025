@@ -165,6 +165,11 @@ function Provider({ children }) {
       });
     }
     finally {
+      toaster.create({
+        title: "Tracks Fetched",
+        description: `All tracks fetched successfully`,
+        type: "success",
+      });
       setIsLoading(false);
     }
   }
