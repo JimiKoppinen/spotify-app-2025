@@ -5,11 +5,13 @@ import SongsContext from "../context/songs";
 
 const SearchBar = () => {
     const [searchInput, setSearchInput] = useState("");
-    const { fetchToken, fetchArtists, selectedArtist } = useContext(SongsContext);
+    const { fetchToken, fetchArtists, selectedArtist, accessToken } = useContext(SongsContext);
 
     useEffect(() => {
-        fetchToken();
-    }, []);
+        if (!accessToken) {
+            fetchToken();
+        }
+    }, [accessToken]);
 
     const handleInputChange = (e) => {
         setSearchInput(e.target.value);
@@ -17,11 +19,11 @@ const SearchBar = () => {
 
     const handleOnSearch = () => {
         fetchArtists(searchInput).then(() => {
-          setSearchInput("");
+            setSearchInput("");
         });
-      };
+    };
 
-    if (selectedArtist) {
+    if (selectedArtist || !accessToken) {
         return null;
     }
     return (

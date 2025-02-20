@@ -134,13 +134,10 @@ function Provider({ children }) {
       return;
     }
     try {
-      setIsLoading(true);
       const response = await axios.get(`/api/fetchAlbumTracks?albumId=${albumId}&accessToken=${accessToken}`);
       setAlbumTracksResponse(response.data);
-      setIsLoading(false);
       return response.data || [];
     } catch (error) {
-      setIsLoading(false);
       toaster.create({
         title: "API Error",
         description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
@@ -159,7 +156,6 @@ function Provider({ children }) {
         return await fetchAlbumTracks(albumId);
       }));
       setMultipleAlbumTracksResponse(albumTracks);
-      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       toaster.create({
@@ -167,6 +163,9 @@ function Provider({ children }) {
         description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
