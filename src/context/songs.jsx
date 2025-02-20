@@ -29,9 +29,7 @@ function Provider({ children }) {
   };
 
   const fetchToken = async () => {
-    const apiUrl = import.meta.env.PROD 
-    ? '/fetchToken' 
-    : '/api/fetchToken';
+    const apiUrl = '/api/fetchToken';
     try {
       setIsLoading(true);
       const response = await axios.get(apiUrl);
