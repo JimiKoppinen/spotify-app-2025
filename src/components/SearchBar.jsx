@@ -1,17 +1,17 @@
 import { Input, Button, Field, } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
-import SongsContext from "../context/songs";
+import SpotifyContext from "../context/spotify";
 
 const SearchBar = () => {
     const [searchInput, setSearchInput] = useState("");
-    const { fetchToken, fetchArtists, selectedArtist, accessToken } = useContext(SongsContext);
+    const { fetchToken, fetchArtists, selectedArtist, accessToken } = useContext(SpotifyContext);
 
     useEffect(() => {
         if (!accessToken) {
             fetchToken();
         }
-    }, [accessToken]);
+    }, [accessToken, fetchToken]);
 
     const handleInputChange = (e) => {
         setSearchInput(e.target.value);

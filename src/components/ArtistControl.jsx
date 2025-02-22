@@ -1,4 +1,4 @@
-import SongsContext from "../context/songs";
+import SpotifyContext from "../context/spotify";
 import { useContext } from 'react';
 import { Box, CloseButton, HStack, Text, } from "@chakra-ui/react";
 import { toaster } from "./ui/toaster";
@@ -6,7 +6,7 @@ import { toaster } from "./ui/toaster";
 
 
 export const ArtistControl = () => {
-    const { selectedArtist, clearState } = useContext(SongsContext);
+    const { selectedArtist, clearState } = useContext(SpotifyContext);
 
     const onArtistClear = () => {
         clearState();

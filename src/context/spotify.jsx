@@ -3,13 +3,12 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { toaster } from "../components/ui/toaster";
 
-const SongsContext = createContext();
+const SpotifyContext = createContext();
 
 function Provider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
   const [artistsResponse, setArtistsResponse] = useState([]);
   const [songsResponse, setSongsResponse] = useState([]);
-  const [topSongsResponse, setTopSongsResponse] = useState([]);
   const [artistAlbumsResponse, setArtistAlbumsResponse] = useState([]);
   const [albumTracksResponse, setAlbumTracksResponse] = useState([]);
   const [multipleAlbumTracksResponse, setMultipleAlbumTracksResponse] = useState([]);
@@ -20,7 +19,6 @@ function Provider({ children }) {
   const clearState = () => {
     setArtistsResponse([]);
     setSongsResponse([]);
-    setTopSongsResponse([]);
     setArtistAlbumsResponse([]);
     setAlbumTracksResponse([]);
     setMultipleAlbumTracksResponse([]);
@@ -28,13 +26,12 @@ function Provider({ children }) {
     setSelectedArtist(null);
   };
 
-  const fetchToken = async () => {
-    const apiUrl = '/api/fetchToken';
+  const fetchData = async (url, setState) => {
     try {
       setIsLoading(true);
-      const response = await axios.get(apiUrl);
-      setAccessToken(response.data);
+      const response = await axios.get(url);
       setIsLoading(false);
+      setState(response.data);
     } catch (error) {
       setIsLoading(false);
       toaster.create({
@@ -43,10 +40,13 @@ function Provider({ children }) {
         type: "error",
       });
     }
+  }
+
+  const fetchToken = async () => {
+    await fetchData('/api/fetchToken', setAccessToken);
   };
 
-
-  async function fetchArtists(artistName) {
+  const fetchArtists = async (artistName) => {
     if (!artistName) {
       toaster.create({
         title: "Enter Artist Name",
@@ -55,79 +55,15 @@ function Provider({ children }) {
       });
       return;
     }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/api/fetchArtists?artistName=${artistName}&accessToken=${accessToken}`);
-      setArtistsResponse(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      toaster.create({
-        title: "API Error",
-        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
-        type: "error",
-      });
-    }
-  }
+    await fetchData(`/api/fetchArtists?artistName=${artistName}&accessToken=${accessToken}`, setArtistsResponse);
+  };
 
-  // Fetch artist songs by name via the Azure Function
-  async function fetchArtistSongsByName(artistName) {
-    if (!artistName) {
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/api/fetchArtistSongs?artistName=${artistName}&accessToken=${accessToken}`);
-      setSongsResponse(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      toaster.create({
-        title: "API Error",
-        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
-        type: "error",
-      });
-    }
-  }
-
-  // Fetch top songs by artist ID via the Azure Function
-  async function fetchTopSongsByArtistId(artistId) {
+  const fetchArtistAlbums = async (artistId) => {
     if (!artistId) {
       return;
     }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/api/fetchTopTracks?artistId=${artistId}&accessToken=${accessToken}`);
-      setTopSongsResponse(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      toaster.create({
-        title: "API Error",
-        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
-        type: "error",
-      });
-    }
-  }
-
-  async function fetchArtistAlbums(artistId) {
-    if (!artistId) {
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/api/fetchArtistAlbums?artistId=${artistId}&accessToken=${accessToken}`);
-      setArtistAlbumsResponse(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      toaster.create({
-        title: "API Error",
-        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
-        type: "error",
-      });
-    }
-  }
+    await fetchData(`/api/fetchArtistAlbums?artistId=${artistId}&accessToken=${accessToken}`, setArtistAlbumsResponse);
+  };
 
   async function fetchAlbumTracks(albumId) {
     if (!albumId) {
@@ -174,39 +110,23 @@ function Provider({ children }) {
     }
   }
 
-  async function fetchTrack(trackId) {
+  const fetchTrack = async (trackId) => {
     if (!trackId) {
       return;
     }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`/api/fetchTrack?trackId=${trackId}&accessToken=${accessToken}`);
-      setTrackResponse(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      toaster.create({
-        title: "API Error",
-        description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
-        type: "error",
-      });
-    }
-  }
+    await fetchData(`/api/fetchTrack?trackId=${trackId}&accessToken=${accessToken}`, setTrackResponse);
+  };
 
   return (
-    <SongsContext.Provider
+    <SpotifyContext.Provider
       value={{
         fetchToken,
         fetchArtists,
         artistsResponse,
-        fetchArtistSongsByName,
         songsResponse,
         isLoading,
         setArtistsResponse,
         setSongsResponse,
-        fetchTopSongsByArtistId,
-        topSongsResponse,
-        setTopSongsResponse,
         fetchArtistAlbums,
         artistAlbumsResponse,
         fetchAlbumTracks,
@@ -222,7 +142,7 @@ function Provider({ children }) {
       }}
     >
       {children}
-    </SongsContext.Provider>
+    </SpotifyContext.Provider>
   );
 }
 
@@ -230,5 +150,5 @@ Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { Provider as SongsProvider };
-export default SongsContext;
+export { Provider as SpotifyProvider };
+export default SpotifyContext;

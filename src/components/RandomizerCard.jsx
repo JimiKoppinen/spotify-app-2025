@@ -14,8 +14,8 @@ export const RandomizerCard = ({ track, onClick }) => {
           alt="Album image"
           mb="3"
         />
-        <Text fontSize="lg">{track.name}</Text>
-        <Text fontSize={"xs"}>{track.album.name}</Text>
+        <Text fontSize={"2xl"}>{track.name}</Text>
+        <Text fontSize={"l"}>{track.album.name}</Text>
         <Text fontSize="sm">
           {convertMillisecondsToMinutesSeconds(track.duration_ms)}
         </Text>
