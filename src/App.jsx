@@ -2,12 +2,12 @@ import { Flex, Container, Heading } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { Toaster } from "./components/ui/toaster"
 import { ArtistSearchContainer } from "./views/ArtistSearchContainer";
-import SongsContext from "./context/songs";
+import SpotifyContext from "./context/spotify";
 import { ArtistControl } from "./components/ArtistControl";
 import { SpinnerBar } from "./components/Spinner";
 
 function App() {
-  const { fetchToken, isLoading } = useContext(SongsContext);
+  const { fetchToken, isLoading } = useContext(SpotifyContext);
 
   useEffect(() => {
     fetchToken();

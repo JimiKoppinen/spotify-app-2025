@@ -1,9 +1,9 @@
 import { Box, Button, Heading, Grid, Image, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
-import SongsContext from "../context/songs";
+import SpotifyContext from "../context/spotify";
 
 const ArtistList = () => {
-  const { selectedArtist, setSelectedArtist, artistsResponse } = useContext(SongsContext);
+  const { selectedArtist, setSelectedArtist, artistsResponse } = useContext(SpotifyContext);
 
   const onArtistSelect = (artist) => {
     setSelectedArtist(artist);

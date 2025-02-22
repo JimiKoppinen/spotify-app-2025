@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import SongsContext from "../context/songs";
+import SpotifyContext from "../context/spotify";
 import { RandomizerCard } from "./RandomizerCard";
 
 export const SongRandomizer = () => {
@@ -15,7 +15,7 @@ export const SongRandomizer = () => {
     multipleAlbumTracksResponse,
     selectedArtist,
     accessToken,
-  } = useContext(SongsContext);
+  } = useContext(SpotifyContext);
 
   useEffect(() => {
     if (!accessToken) {
