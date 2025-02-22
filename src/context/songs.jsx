@@ -17,7 +17,6 @@ function Provider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState(null);
 
-
   const clearState = () => {
     setArtistsResponse([]);
     setSongsResponse([]);
@@ -30,9 +29,10 @@ function Provider({ children }) {
   };
 
   const fetchToken = async () => {
+    const apiUrl = '/api/fetchToken';
     try {
       setIsLoading(true);
-      const response = await axios.get("/api/fetchToken");
+      const response = await axios.get(apiUrl);
       setAccessToken(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -134,13 +134,10 @@ function Provider({ children }) {
       return;
     }
     try {
-      setIsLoading(true);
       const response = await axios.get(`/api/fetchAlbumTracks?albumId=${albumId}&accessToken=${accessToken}`);
       setAlbumTracksResponse(response.data);
-      setIsLoading(false);
       return response.data || [];
     } catch (error) {
-      setIsLoading(false);
       toaster.create({
         title: "API Error",
         description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
@@ -159,7 +156,6 @@ function Provider({ children }) {
         return await fetchAlbumTracks(albumId);
       }));
       setMultipleAlbumTracksResponse(albumTracks);
-      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       toaster.create({
@@ -167,6 +163,14 @@ function Provider({ children }) {
         description: `Status: ${error.response.status} Reason: ${error.response.data} ${error.response.statusText}`,
         type: "error",
       });
+    }
+    finally {
+      toaster.create({
+        title: "Tracks Fetched",
+        description: `All tracks fetched successfully`,
+        type: "success",
+      });
+      setIsLoading(false);
     }
   }
 

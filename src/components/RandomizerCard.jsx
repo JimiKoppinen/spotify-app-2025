@@ -1,29 +1,41 @@
-import { Box, Text, Image} from "@chakra-ui/react";
-// import { LuExternalLink } from "react-icons/lu"
+import { Box, Text, Image } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { convertMillisecondsToMinutesSeconds } from "../utils/helpers";
 
-export const RandomizerCard = (track) => {
-if (!track || !track.song) {
+export const RandomizerCard = ({ track, onClick }) => {
+  if (!track) {
     return;
-}
+  }
   return (
-    <div className="card-font">
-      <Box bg="1b1d1f">
+    <div>
+      <Box onClick={onClick} cursor="pointer" bg="1b1d1f">
         <Image
-          src={track.song.album.images[1].url}
+          src={track.album.images[1].url}
           alt="Album image"
-        //   borderRadius="md"
           mb="3"
         />
-        <Text fontSize="lg">{track.song.name}</Text>
-        <Text fontSize={"xs"}>{track.song.album.name}</Text>
+        <Text fontSize="lg">{track.name}</Text>
+        <Text fontSize={"xs"}>{track.album.name}</Text>
         <Text fontSize="sm">
-          {convertMillisecondsToMinutesSeconds(track.song.duration_ms)}
-        </Text> 
-        {/* <Link colorPalette={"default"} href={song.song.external_urls.spotify} isExternal>
-          Open in Spotify <LuExternalLink />
-        </Link> */}
+          {convertMillisecondsToMinutesSeconds(track.duration_ms)}
+        </Text>
       </Box>
     </div>
   );
+};
+
+RandomizerCard.propTypes = {
+  track: PropTypes.shape({
+    album: PropTypes.shape({
+      images: PropTypes.arrayOf(
+        PropTypes.shape({
+          url: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    name: PropTypes.string.isRequired,
+    duration_ms: PropTypes.number.isRequired,
+  }).isRequired,
+  onClick: PropTypes.func.isRequired,
 };

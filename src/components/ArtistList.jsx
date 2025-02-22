@@ -1,17 +1,13 @@
-import { Box, Button, Heading, Spinner, Grid, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Grid, Image, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import SongsContext from "../context/songs";
 
 const ArtistList = () => {
-  const { selectedArtist, setSelectedArtist, artistsResponse, isLoading } = useContext(SongsContext);
+  const { selectedArtist, setSelectedArtist, artistsResponse } = useContext(SongsContext);
 
   const onArtistSelect = (artist) => {
     setSelectedArtist(artist);
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   if (!artistsResponse.artists || selectedArtist) {
     return null;
